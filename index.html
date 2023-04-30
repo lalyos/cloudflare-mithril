@@ -1,0 +1,37 @@
+<body>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+
+  <h1>VIP</h1>
+  <li><a href="/vip">vip</a></li>
+  <li><a href="/insertsome">more</a></li>
+  <li><a href="/clear">clear</a></li>
+  <div id="content"></div>
+
+  <script>
+     vip=[
+      {"name":"bela"},
+    ]
+    m.request({
+            method: "GET",
+            url: "/vip",
+        })
+        .then(function(data) {
+            console.log("VIP:",data)
+            vip = data
+        })
+
+     var Hello = {
+          view: function() {
+              return m("ul", 
+                vip.map(function(user){
+                  return m("li", `${user.name} [${user.age}]`)
+                })
+              )
+          }
+      }
+     
+      var root = document.getElementById("content")
+      m.mount(root, Hello)
+
+    </script>
+</body>

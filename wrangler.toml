@@ -1,0 +1,7 @@
+name = "mithril"
+compatibility_date = "2023-04-30"
+
+[[ d1_databases ]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "mithril"
+database_id = "86d43f61-5979-4740-8c9b-6b6ea0b6b0e5"
