@@ -1,5 +1,5 @@
 export async function onRequest(context) {
-    const info = context.env.DB.prepare(`insert into vip VALUES 
+    const info = await context.env.DB.prepare(`insert into vip VALUES 
     ('delme', 44), 
     ('delme', 55 ), 
     ('delme',66), 
