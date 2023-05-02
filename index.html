@@ -1,40 +1,71 @@
 <body>
   <script src="https://unpkg.com/mithril/mithril.js"></script>
 
-  <h1>VIP List</h1>
-  <li><a href="/vip" target="result">vip</a></li>
-  <li><a href="/insertsome" target="result">more</a></li>
-  <li><a href="/clear" target="result">clear</a></li>
+  <h1>VIP List v1.1</h1>
   <div id="content"></div>
 
-  <iframe name="result" width="100%">
-
-  </iframe>
   <script>
-     vip=[
-      {"name":"bela"},
-    ]
-    m.request({
-            method: "GET",
-            url: "/vip",
+     var Model = {
+      vip: [{"name":"bela"}],
+      more: function() {
+        console.log("Model.more() ...");
+        m.request({
+          method: "GET",
+          url: "/insertsome",
+        })
+        .then(function(result) {
+          console.log(result)
+          Model.refresh()
+        })
+      },
+      clear: function() {
+        m.request({
+          method: "GET",
+          url: "/clear",
+        })
+        .then(function(result) {
+          console.log(result)
+          Model.refresh()
+        })
+      },      
+      refresh: function() {
+        console.log("Model.REFRESH() ...");
+        m.request({
+          method: "GET",
+          url: "/vip",
         })
         .then(function(data) {
-            console.log("VIP:",data)
-            vip = data
+            Model.vip = data
         })
-
-     var Hello = {
+      }
+     }
+     var Viplist = {
+          oninit: function() {
+            console.log("oninit() called ...");
+            Model.refresh()
+          },
+          more: function() {
+            Model.more()
+          },
+          clear: function() {
+            Model.clear()
+          },
           view: function() {
-              return m("ul", 
-                vip.map(function(user){
-                  return m("li", `${user.name} [${user.age}]`)
-                })
+              console.log("view called ...", Model.vip.length)
+              return m(".vip",
+                m("button",{ onclick: Viplist.more},"add more"),
+                m("button",{ onclick: Viplist.clear}, "clear" ),
+                m("ul", 
+                  Model.vip.map(function(user){
+                    return m("li", `${user.name} [${user.age}]`)
+                  })
+                )
               )
           }
       }
      
       var root = document.getElementById("content")
-      m.mount(root, Hello)
+      m.mount(root, Viplist)
 
     </script>
 </body>
